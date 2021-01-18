@@ -22,7 +22,7 @@ ExportedObj/
 *.suo
 *.tmp
 *.user
-*.userprefs
+
 *.pidb
 *.booproj
 *.svd

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public partial class UIManager : MonoBehaviour
 {
     [Header("매니저 리스트")]
     public TrunManager mTrunManager;
@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour
     [HideInInspector] public Text MonsterHp;
     [HideInInspector] public Text MonsterAd;
     [HideInInspector] public Text MonsterDefense;
+    [HideInInspector] public Text Gameresult;
     //버튼
     [HideInInspector] public Button btna;
     [HideInInspector] public Button btnb;
@@ -66,6 +67,7 @@ public class UIManager : MonoBehaviour
         MonsterHp = GameObject.Find("HPnum").GetComponent<Text>();
         MonsterAd = GameObject.Find("ADnum").GetComponent<Text>();
         MonsterDefense = GameObject.Find("DEnum").GetComponent<Text>();
+        Gameresult = GameObject.Find("Gameresult").GetComponent<Text>();
 
         playerAD = GlobalValue.playeAD;
         playerDF = GlobalValue.playeDF;
@@ -81,16 +83,7 @@ public class UIManager : MonoBehaviour
         MonsterDefense.text = monsterDF.ToString();
 
     }
-    public void setScore(int _value)
-    {
-        mExp = mTrunManager.GetPlayerExp();
-        mTrunManager.SetPlayerExp(mExp+_value);
-    }
-    public void onScore()
-    {
-        setScore(1);
-        print(mTrunManager.GetPlayerExp());
-    }
+   
 
     // Update is called once per frame
     void Update()
