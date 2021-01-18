@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
 
 public class GlobalValue
 {
@@ -11,9 +11,7 @@ public class GlobalValue
     //유저의 방어력
     public static int playeDF = 1;
     //유저의 경험치
-    public static int Exp = 0;
-    public static string GetExp = "0";
-    
+    public static string Exp;
     //유저의 레벨
     public static int Lv = 1;
 

@@ -84,18 +84,21 @@ public class UIManager : MonoBehaviour
     }
     public void setScore(int _value)
     {
-        mExp += _value;
-        PlayerPrefs.SetInt(GlobalValue.GetExp, _value);
+        _value += getScore();
+        PlayerPrefs.SetInt(GlobalValue.Exp, _value);
     }
     public int getScore()
     {
-        mExp = PlayerPrefs.GetInt(GlobalValue.GetExp);
+        mExp = PlayerPrefs.GetInt(GlobalValue.Exp);
         return mExp;
     }
     public void onScore()
     {
-        setScore(1);
+        setScore(getScore() + 1);
+        SaveDataLoad();
         print("클릭됨");
+        print(getScore());
+        print(GlobalValue.Exp);
     }
     public void SaveDataLoad()
     {
@@ -105,8 +108,8 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        SaveDataLoad();
-        print(getScore());
+       
+       
         Setting();
         
     }
