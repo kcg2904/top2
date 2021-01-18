@@ -13,9 +13,12 @@ public class TrunManager : MonoBehaviour
 
     public int trun;
 
+    public int mExp = 0;
+
     // Start is called before the first frame update
     void Start()
     {
+        SaveDataLoad();
         playertrun = true;
         monstertrun = false;
         trun = 1;
@@ -24,7 +27,7 @@ public class TrunManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
         if (Reset1)
         {
             StartCoroutine("DelayTime1");
@@ -48,9 +51,26 @@ public class TrunManager : MonoBehaviour
         playertrun = false;
         GameObject.Find("MoveM").GetComponent<MonsterTrun>().MoveCheck = false;
         yield return new WaitForSeconds(2f);
-        GameObject.Find("Player").transform.localRotation = Quaternion.Euler(0,0,0);
+        GameObject.Find("Player").transform.localRotation = Quaternion.Euler(0, 0, 0);
         monstertrun = true;
         Reset2 = false;
         StopCoroutine("DelayTime2");
+    }
+
+    public void SaveDataLoad()
+    {
+        mExp = GetPlayerExp();
+    }
+
+    public void SetPlayerExp(int _mExp)
+    {
+        mExp = _mExp;
+        PlayerPrefs.SetInt(GlobalValue.mExp, _mExp);
+    }
+
+    public int GetPlayerExp()
+    {
+        mExp = PlayerPrefs.GetInt(GlobalValue.mExp);
+        return mExp;
     }
 }

@@ -48,7 +48,6 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         StartSetting();
-        SaveDataLoad();
     }
     public void StartSetting()
     {
@@ -84,32 +83,19 @@ public class UIManager : MonoBehaviour
     }
     public void setScore(int _value)
     {
-        _value += getScore();
-        PlayerPrefs.SetInt(GlobalValue.Exp, _value);
-    }
-    public int getScore()
-    {
-        mExp = PlayerPrefs.GetInt(GlobalValue.Exp);
-        return mExp;
+        mExp = mTrunManager.GetPlayerExp();
+        mTrunManager.SetPlayerExp(mExp+_value);
     }
     public void onScore()
     {
-        setScore(getScore() + 1);
-        SaveDataLoad();
-        print("클릭됨");
-        print(getScore());
-        print(GlobalValue.Exp);
-    }
-    public void SaveDataLoad()
-    {
-        mExp = getScore();
+        setScore(1);
+        print(mTrunManager.GetPlayerExp());
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-       
+        
         Setting();
         
     }
