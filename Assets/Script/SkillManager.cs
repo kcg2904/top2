@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
@@ -149,6 +150,7 @@ public class SkillManager : MonoBehaviour
         if(Dfup == trun)
         {
             Dfup = 0;
+            muiManager.Defanse.GetComponent<Image>().fillAmount = 0;
             muiManager.playerDF = GlobalValue.playeDF;
         }
 
@@ -169,6 +171,7 @@ public class SkillManager : MonoBehaviour
         trun = mtrunManager.trun;
         //스킬 리치 확인
         skillrich = GameObject.Find("Rich").GetComponent<PlayerRich>().PlayerSkillRichOn;
+        
 
     }
     public void Skilla(bool _onSkilla)
@@ -267,19 +270,21 @@ public class SkillManager : MonoBehaviour
             if (playertrun)
             {
                 player.SetTrigger("Defend");
+                
                 muiManager.btnd.interactable = false;
                 muiManager.playerDF += 2;
-                
+
                 mtrunManager.Reset2 = true;
                 muiManager.onSkilld = false;
                 
                 if (skilld == 0)
                 {
+                
                     skilld = trun + DelayPlayerd;
                 }
                 if (Dfup == 0)
                 {
-                    Dfup += trun;
+                    Dfup = trun + 3;
                 }
                 player.SetTrigger("Idle_Battle");
             }

@@ -2,23 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public partial class UIManager : MonoBehaviour
 {
     [Header("매니저 리스트")]
     public TrunManager mTrunManager;
     public SkillManager mSkillManager;
-
+    
     [Header("턴 UI")]
     public Text TrunText;
 
     //상태창
     Text PlayerHp;
     Image Hpbar;
+
     [HideInInspector] public Text MonsterHp;
     [HideInInspector] public Text MonsterAd;
     [HideInInspector] public Text MonsterDefense;
     [HideInInspector] public Text Gameresult;
+    [HideInInspector] public Text Drop;
     //버튼
     [HideInInspector] public Button btna;
     [HideInInspector] public Button btnb;
@@ -41,6 +44,8 @@ public partial class UIManager : MonoBehaviour
     [HideInInspector] public int monsterAD;
     [HideInInspector] public int monsterDF;
     [HideInInspector] public int mExp;
+    public GameObject Defanse;
+    public GameObject ResultPanel;
 
 
     //턴 확인
@@ -49,6 +54,7 @@ public partial class UIManager : MonoBehaviour
     void Start()
     {
         StartSetting();
+        
     }
     public void StartSetting()
     {
@@ -68,6 +74,11 @@ public partial class UIManager : MonoBehaviour
         MonsterAd = GameObject.Find("ADnum").GetComponent<Text>();
         MonsterDefense = GameObject.Find("DEnum").GetComponent<Text>();
         Gameresult = GameObject.Find("Gameresult").GetComponent<Text>();
+        Drop = GameObject.Find("Droptbl").GetComponent<Text>();
+        ResultPanel = GameObject.Find("ResultPanel");
+        Defanse = GameObject.Find("Defanse");
+        Defanse.GetComponent<Image>().fillAmount = 0;
+        ResultPanel.SetActive(false);
 
         playerAD = GlobalValue.playeAD;
         playerDF = GlobalValue.playeDF;
@@ -75,8 +86,9 @@ public partial class UIManager : MonoBehaviour
         monsterHP = GlobalValue.monsterHP;
         monsterAD = GlobalValue.monsterAD;
         monsterDF = GlobalValue.monsterDF;
-        
 
+
+        print(playerHP);
         PlayerHp.text = playerHP.ToString();
         MonsterHp.text = monsterHP.ToString();
         MonsterAd.text = monsterAD.ToString();
@@ -103,6 +115,7 @@ public partial class UIManager : MonoBehaviour
         MonsterAd.text = monsterAD.ToString();
         MonsterDefense.text = monsterDF.ToString();
         Hpbar.fillAmount = playerHP * 0.01f;
+        setResult();
 
     }
     public void onbtnm()
@@ -130,6 +143,8 @@ public partial class UIManager : MonoBehaviour
     }   
     public void onbtnd()
     {
+        Defanse.GetComponent<Image>().fillAmount = 1;
         onSkilld = true;
+        
     }
 }
