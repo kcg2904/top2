@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
     public Text TrunText;
 
     //상태창
-    Text PlyerHp;
+    Text PlayerHp;
     Image Hpbar;
     [HideInInspector] public Text MonsterHp;
     [HideInInspector] public Text MonsterAd;
@@ -31,15 +31,26 @@ public class UIManager : MonoBehaviour
     [HideInInspector] public bool onSkillb = false;
     [HideInInspector] public bool onSkillc = false;
     [HideInInspector] public bool onSkilld = false;
-    
 
 
+    [HideInInspector] public int playerHP;
+    [HideInInspector] public int playerAD;
+    [HideInInspector] public int playerDF;
+    [HideInInspector] public int monsterHP;
+    [HideInInspector] public int monsterAD;
+    [HideInInspector] public int monsterDF;
+    [HideInInspector] public int mExp;
 
 
     //턴 확인
     int trun;
     // Start is called before the first frame update
     void Start()
+    {
+        StartSetting();
+        SaveDataLoad();
+    }
+    public void StartSetting()
     {
         mTrunManager = GameObject.Find("TrunManager").GetComponent<TrunManager>();
         mSkillManager = GameObject.Find("SkillManager").GetComponent<SkillManager>();
@@ -51,17 +62,51 @@ public class UIManager : MonoBehaviour
         btnm = GameObject.Find("Movebtn").GetComponent<Button>();
 
         TrunText = GameObject.Find("Trunum").GetComponent<Text>();
-        PlyerHp = GameObject.Find("Hpnum").GetComponent<Text>();
+        PlayerHp = GameObject.Find("Hpnum").GetComponent<Text>();
         Hpbar = GameObject.Find("Hpbar").GetComponent<Image>();
         MonsterHp = GameObject.Find("HPnum").GetComponent<Text>();
         MonsterAd = GameObject.Find("ADnum").GetComponent<Text>();
-        MonsterDefense = GameObject.Find("DEnum").GetComponent<Text>();  
+        MonsterDefense = GameObject.Find("DEnum").GetComponent<Text>();
+
+        playerAD = GlobalValue.playeAD;
+        playerDF = GlobalValue.playeDF;
+        playerHP = GlobalValue.playerHP;
+        monsterHP = GlobalValue.monsterHP;
+        monsterAD = GlobalValue.monsterAD;
+        monsterDF = GlobalValue.monsterDF;
         
+
+        PlayerHp.text = playerHP.ToString();
+        MonsterHp.text = monsterHP.ToString();
+        MonsterAd.text = monsterAD.ToString();
+        MonsterDefense.text = monsterDF.ToString();
+
+    }
+    public void setScore(int _value)
+    {
+        mExp += _value;
+        PlayerPrefs.SetInt(GlobalValue.GetExp, _value);
+    }
+    public int getScore()
+    {
+        mExp = PlayerPrefs.GetInt(GlobalValue.GetExp);
+        return mExp;
+    }
+    public void onScore()
+    {
+        setScore(1);
+        print("클릭됨");
+    }
+    public void SaveDataLoad()
+    {
+        mExp = getScore();
     }
 
     // Update is called once per frame
     void Update()
     {
+        SaveDataLoad();
+        print(getScore());
         Setting();
         
     }
@@ -70,6 +115,13 @@ public class UIManager : MonoBehaviour
     {
         trun = mTrunManager.trun;
         TrunText.text = trun.ToString();
+        
+        PlayerHp.text = playerHP.ToString();
+        MonsterHp.text = monsterHP.ToString();
+        MonsterAd.text = monsterAD.ToString();
+        MonsterDefense.text = monsterDF.ToString();
+        Hpbar.fillAmount = playerHP * 0.01f;
+
     }
     public void onbtnm()
     {

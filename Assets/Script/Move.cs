@@ -50,20 +50,20 @@ public class Move : MonoBehaviour, IPointerDownHandler
         {
             cam2.GetComponent<Camera>().enabled = false;
             cam = cam1; 
-            btna.SetActive(true);
-            btnb.SetActive(true);
-            btnc.SetActive(true);
-            btnd.SetActive(true);
+            btna.SetActive(false);
+            btnb.SetActive(false);
+            btnc.SetActive(false);
+            btnd.SetActive(false);
 
         }
         else
         {
             cam = null;
             cam2.GetComponent<Camera>().enabled = true;
-            btna.SetActive(false);
-            btnb.SetActive(false);
-            btnc.SetActive(false);
-            btnd.SetActive(false);
+            btna.SetActive(true);
+            btnb.SetActive(true);
+            btnc.SetActive(true);
+            btnd.SetActive(true);
 
         }
         playtrun = mtrunManager.playertrun;

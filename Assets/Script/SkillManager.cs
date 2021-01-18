@@ -12,6 +12,10 @@ public class SkillManager : MonoBehaviour
 
     [HideInInspector] public Animator player;
     [HideInInspector] public Animator monster;
+    [HideInInspector] public GameObject Player;
+    [HideInInspector] public GameObject Monster;
+
+
 
     bool playertrun;
     bool monstertrun;
@@ -32,6 +36,8 @@ public class SkillManager : MonoBehaviour
     bool onSkillc;
     bool onSkilld;
 
+    int Dfup = 0;
+
     int DelayPlayera = 1;
     int DelayPlayerb = 3;
     int DelayPlayerc = 2;
@@ -46,6 +52,8 @@ public class SkillManager : MonoBehaviour
     public bool onMonstera = false;
     public bool onMonsterb = false;
     public bool onMonsterc = false;
+
+    bool skillrich;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,7 +62,9 @@ public class SkillManager : MonoBehaviour
         mMonsterTrun = GameObject.Find("MoveM").GetComponent<MonsterTrun>();
         player = GameObject.Find("Player").GetComponent<Animator>();
         monster = GameObject.Find("Monster").GetComponent<Animator>();
-
+        Player = GameObject.Find("Player");
+        Monster = GameObject.Find("Monster");
+        
     }
 
     // Update is called once per frame
@@ -62,8 +72,8 @@ public class SkillManager : MonoBehaviour
     {
         playerCheck = mMonsterTrun.playerCheck;
         Setting();
-        SkillSet();
         Skill();
+        SkillSet();
     }
 
     void Skill()
@@ -136,6 +146,11 @@ public class SkillManager : MonoBehaviour
             skilld = 0;
             muiManager.btnd.interactable = true;
         }
+        if(Dfup == trun)
+        {
+            Dfup = 0;
+            muiManager.playerDF = GlobalValue.playeDF;
+        }
 
 
 
@@ -152,6 +167,8 @@ public class SkillManager : MonoBehaviour
         monstertrun = mtrunManager.monstertrun;
         //현재 턴을 받아옴
         trun = mtrunManager.trun;
+        //스킬 리치 확인
+        skillrich = GameObject.Find("Rich").GetComponent<PlayerRich>().PlayerSkillRichOn;
 
     }
     public void Skilla(bool _onSkilla)
@@ -160,8 +177,18 @@ public class SkillManager : MonoBehaviour
         {
             if (playertrun)
             {
-
+                Player.transform.LookAt(Monster.transform.localPosition);
                 player.SetTrigger("Attack1");
+                if (skillrich)
+                {
+                    if ((muiManager.playerAD - muiManager.monsterDF) > 0)
+                    {
+
+                        monster.SetTrigger("GetHit");
+                        muiManager.monsterHP -= (muiManager.playerAD - muiManager.monsterDF);
+                        monster.SetTrigger("Idle");
+                    }
+                }
                 player.SetTrigger("Idle_Battle");
                 muiManager.btna.interactable = false;
                 mtrunManager.Reset2 = true;
@@ -183,6 +210,15 @@ public class SkillManager : MonoBehaviour
 
                 player.SetTrigger("Attack2-1");
                 player.SetTrigger("Attack2-2");
+                if (skillrich)
+                {
+                    if ((muiManager.playerAD - muiManager.monsterDF) > 0)
+                    {
+                        monster.SetTrigger("GetHit");
+                        muiManager.monsterHP -= (muiManager.playerAD * 2 - muiManager.monsterDF);
+                        monster.SetTrigger("Idle");
+                    }
+                }
                 muiManager.btnb.interactable = false;
                 mtrunManager.Reset2 = true;
                 muiManager.onSkillb = false;
@@ -203,6 +239,15 @@ public class SkillManager : MonoBehaviour
             {
 
                 player.SetTrigger("Attack1");
+                if (skillrich)
+                {
+                    if ((muiManager.playerAD - muiManager.monsterDF) > 0)
+                    {
+                        monster.SetTrigger("GetHit");
+                        muiManager.monsterHP -= (int)(muiManager.playerAD * 1.5 - muiManager.monsterDF);
+                        monster.SetTrigger("Idle");
+                    }
+                }
                 muiManager.btnc.interactable = false;
                 mtrunManager.Reset2 = true;
                 muiManager.onSkillc = false;
@@ -223,12 +268,18 @@ public class SkillManager : MonoBehaviour
             {
                 player.SetTrigger("Defend");
                 muiManager.btnd.interactable = false;
+                muiManager.playerDF += 2;
+                
                 mtrunManager.Reset2 = true;
                 muiManager.onSkilld = false;
-
+                
                 if (skilld == 0)
                 {
                     skilld = trun + DelayPlayerd;
+                }
+                if (Dfup == 0)
+                {
+                    Dfup += trun;
                 }
                 player.SetTrigger("Idle_Battle");
             }
@@ -239,12 +290,21 @@ public class SkillManager : MonoBehaviour
         if (_onMonstera)
         {
             monster.SetTrigger("Attack01");
+            mtrunManager.Reset1 = true;
+            if (skillrich)
+            {
+                if ((muiManager.monsterAD - muiManager.playerDF) > 0)
+                {
+                    player.SetTrigger("GetHit");
+                    muiManager.playerHP -= (int)(muiManager.monsterAD - muiManager.playerDF);
+                    player.SetTrigger("Idle_Battle");
+                }
+            }
             monster.SetTrigger("Idle");
             if (monstera == 0)
             {
                 monstera = trun + DelayMonstera;
             }
-            mtrunManager.Reset1 = true;
         }
     }
     public void MonsterSkillb(bool _onMonsterb)
@@ -253,6 +313,12 @@ public class SkillManager : MonoBehaviour
         {
 
             monster.SetTrigger("Attack02");
+            if ((muiManager.monsterAD - muiManager.playerDF) > 0)
+            {
+                player.SetTrigger("GetHit");
+                muiManager.playerHP -= (int)(muiManager.monsterAD * 2 - muiManager.playerDF);
+                player.SetTrigger("Idle_Battle");
+            }
             monster.SetTrigger("Idle");
             if (monsterb == 0)
             {
@@ -267,6 +333,7 @@ public class SkillManager : MonoBehaviour
         {
             monster.SetTrigger("Defend");
             //체력회복 스킬
+            muiManager.monsterHP += 15;
             monster.SetTrigger("Idle");
             if (monsterc == 0)
             {

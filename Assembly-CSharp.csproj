@@ -64,10 +64,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Script\Global\GlobalValue.cs" />
+    <Compile Include="Assets\Script\Global\UserStatus.cs" />
     <Compile Include="Assets\Script\MonsterTrun.cs" />
     <Compile Include="Assets\Script\Move.cs" />
     <Compile Include="Assets\Script\MoveFloor.cs" />
-    <Compile Include="Assets\Script\PlayerC.cs" />
+    <Compile Include="Assets\Script\PlayerRich.cs" />
     <Compile Include="Assets\Script\SkillManager.cs" />
     <Compile Include="Assets\Script\Trun.cs" />
     <Compile Include="Assets\Script\TrunManager.cs" />

@@ -24,6 +24,7 @@ public class TrunManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (Reset1)
         {
             StartCoroutine("DelayTime1");
@@ -36,7 +37,7 @@ public class TrunManager : MonoBehaviour
     //몬스터의 턴 종료시 실행
     IEnumerator DelayTime1() {
         monstertrun = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
         Reset1 = false;
         trun += 1;
         playertrun = true;
@@ -46,7 +47,8 @@ public class TrunManager : MonoBehaviour
     IEnumerator DelayTime2() {
         playertrun = false;
         GameObject.Find("MoveM").GetComponent<MonsterTrun>().MoveCheck = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
+        GameObject.Find("Player").transform.localRotation = Quaternion.Euler(0,0,0);
         monstertrun = true;
         Reset2 = false;
         StopCoroutine("DelayTime2");
